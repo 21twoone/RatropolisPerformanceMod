@@ -1,0 +1,11 @@
+.vs/
+analysis/
+artifacts/
+bin/
+deps/
+obj/
+
+*.log
+*.user
+*.suo
+*.zip

@@ -15,6 +15,8 @@ frame pacing is much clearer in the comparison below.
 
 ![Ratropolis optimizer OFF and ON comparison with more than 2,000 units](docs/performance-comparison.gif)
 
+🎬 **[Watch the Full Side-by-Side Comparison Video on YouTube](https://youtu.be/7Ug2rzYSh2c)**
+
 ## Download and Install
 
 1. Open the latest page under

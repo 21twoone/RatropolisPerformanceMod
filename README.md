@@ -7,6 +7,14 @@ The optimizer replaces thousands of friendly `AttackRange` Physics2D trigger
 checks with a centralized one-dimensional range scan. Units, animations,
 damage text, combat behavior, and save files remain intact.
 
+## Performance Comparison
+
+Tested on a late-game save with more than **2,000 units**. The FPS counter
+shows only part of the improvement; the difference in motion smoothness and
+frame pacing is much clearer in the comparison below.
+
+![Ratropolis optimizer OFF and ON comparison with more than 2,000 units](docs/performance-comparison.gif)
+
 ## Download and Install
 
 1. Open the latest page under

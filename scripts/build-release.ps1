@@ -4,7 +4,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$version = '1.0.0'
+$version = '1.1.0'
 $bepInExVersion = '5.4.23.4'
 $projectRoot = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 $artifactRoot = Join-Path $projectRoot 'artifacts'

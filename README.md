@@ -1,58 +1,91 @@
 # Ratropolis Performance Mod
 
-An unofficial BepInEx mod that reduces severe late-game slowdown when a
-Ratropolis save contains a very large friendly army.
+An unofficial BepInEx mod for severe late-game slowdown caused by very large
+friendly armies. It was developed and tested with a save containing more than
+2,000 units.
 
-The optimizer replaces thousands of friendly `AttackRange` Physics2D trigger
-checks with a centralized one-dimensional range scan. Units, animations,
-damage text, combat behavior, and save files remain intact.
+## What It Does
 
-## Performance Comparison
-
-Tested on a late-game save with more than **2,000 units**. The FPS counter
-shows only part of the improvement; the difference in motion smoothness and
-frame pacing is much clearer in the comparison below.
-
-![Ratropolis optimizer OFF and ON comparison with more than 2,000 units](docs/performance-comparison.gif)
+- Replaces thousands of friendly `AttackRange` Physics2D triggers with a
+  centralized range scanner.
+- Disables unnecessary friendly-to-friendly body contacts.
+- Batches Physics2D transform synchronization after the game's movement pass.
+- Adds Crowd Display modes for reducing rendered army size.
+- Prevents hidden units from creating thousands of particles, floating text,
+  and buff-icon objects.
+- Keeps every real unit active for combat, stats, damage, buffs, movement, and
+  saving. Crowd Display changes presentation only.
 
 ## Download and Install
 
-1. Open the latest page under
+1. Open
    [GitHub Releases](https://github.com/21twoone/RatropolisPerformanceMod/releases).
-2. Download `RatropolisPerformanceMod-v1.0.0-win-x86.zip`.
+2. Download `RatropolisPerformanceMod-v1.1.0-win-x86.zip`.
    Do not download GitHub's automatic `Source code` archives.
 3. In Steam, right-click **Ratropolis**, then select
    **Manage > Browse local files**.
 4. Close Ratropolis.
-5. Extract the zip directly into the Ratropolis game folder. Allow folders to
-   merge when Windows asks.
-6. Start the game. The top-left corner should show:
+5. Extract the zip directly into the Ratropolis game folder and allow folders
+   to merge.
+6. Start the game. The top-left HUD should show the optimizer and Crowd mode.
 
-```text
-FPS 60 | Optimizer ON
-```
+Use `RatropolisPerformanceMod-v1.1.0-plugin-only.zip` instead if BepInEx
+5.4.23.4 x86 is already installed.
 
-If BepInEx is already installed, the smaller
-`RatropolisPerformanceMod-v1.0.0-plugin-only.zip` can be extracted into the
-same game folder instead.
+To upgrade from v1.0.0, close the game and extract v1.1.0 over the existing
+installation.
 
 ## Controls
 
-- `F6`: enable or disable the optimizer.
-- `F7`: show or hide the compact HUD.
+| Key | Function |
+| --- | --- |
+| `F6` | Toggle the core AttackRange and Physics2D optimizations. |
+| `F7` | Cycle `Crowd ULTRA -> Crowd 1:N -> Crowd OFF -> ULTRA`. |
+| `F8` | Increase the Crowd ratio by 10. |
+| `F9` | Decrease the Crowd ratio by 10, with a minimum of 1:10. |
 
-The optimizer starts working when the total unit count reaches the configured
-threshold. Keep it enabled during normal play.
+### Crowd Modes
+
+- **ULTRA**: shows one representative of each friendly unit type. Recommended
+  for armies with thousands of units.
+- **1:N**: shows one representative for every N units while always keeping at
+  least one of each unit type visible.
+- **OFF**: restores all unit bodies and visual effects.
+
+New installations start in `ULTRA`. The selected mode and ratio are saved in:
+
+```text
+BepInEx\config\local.ratropolis.performance.cfg
+```
+
+## Recommended Settings
+
+- Keep `Optimizer ON`.
+- Use `Crowd ULTRA` for maximum performance and lower visual-object memory use.
+- Use `F8` and `F9` to choose a denser ratio when you want to see more units.
+- Avoid `Crowd OFF` with extremely large armies unless full visuals are needed.
+
+## Limitations
+
+Ratropolis is a 32-bit game. The mod reduces rendering, Physics2D work, and
+visual-object pool growth, but it cannot remove the real unit simulation or
+raise the game's address-space limit.
+
+Large saves can still pause briefly during the game's synchronous autosave,
+because the game serializes every unit and buff on the main thread.
+
+The mod does not edit or convert save files. Back up important saves before
+installing any game mod.
 
 ## Uninstall
 
-Close the game and delete:
+Close the game and run `uninstall-mod.ps1`, or delete:
 
 ```text
 BepInEx\plugins\RatropolisPerformanceMod.dll
 ```
 
-The mod does not modify save files. Removing BepInEx itself is optional.
+Removing BepInEx itself is optional.
 
 ## Build from Source
 
@@ -79,8 +112,7 @@ Ratropolis files are committed or distributed.
 - Unity Mono x86
 - BepInEx `5.4.23.4` x86
 
-This is an unofficial community mod and is not affiliated with Cassel Games.
-Back up important saves before installing any game mod.
+This project is not affiliated with Cassel Games.
 
 ## License
 

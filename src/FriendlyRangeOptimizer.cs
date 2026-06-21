@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using HarmonyLib;
 using UnityEngine;
 
@@ -33,6 +34,11 @@ namespace RatropolisPerformanceMod
             }
         }
 
+        internal static int DisabledCount
+        {
+            get { return Disabled.Count; }
+        }
+
         internal static void ProcessFrame()
         {
             if (!Active)
@@ -52,6 +58,10 @@ namespace RatropolisPerformanceMod
                 return;
             }
 
+            long diagnosticStart = PerformanceDiagnostics.IsRecording
+                ? Stopwatch.GetTimestamp()
+                : 0L;
+
             if (teamUnits == null || teamCursor >= teamUnits.Count)
             {
                 BeginCycle(game);
@@ -60,11 +70,18 @@ namespace RatropolisPerformanceMod
             int end = Mathf.Min(
                 teamCursor + Plugin.FriendlyRangeBatchSize.Value,
                 teamUnits.Count);
+            int processed = end - teamCursor;
 
             for (; teamCursor < end; teamCursor++)
             {
                 RefreshUnit(teamUnits[teamCursor]);
             }
+
+            PerformanceDiagnostics.RecordOptimizer(
+                diagnosticStart,
+                processed,
+                Enemies.Count,
+                Disabled.Count);
         }
 
         internal static void RegisterIfNeeded(AttackRange range)

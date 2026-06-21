@@ -16,6 +16,10 @@ friendly armies. It was developed and tested with a save containing more than
 - Keeps every real unit active for combat, stats, damage, buffs, movement, and
   saving. Crowd Display changes presentation only.
 
+## Full Comparison Video
+
+[Watch the complete side-by-side test with more than 2,000 units on YouTube](https://youtu.be/7Ug2rzYSh2c).
+
 ## Download and Install
 
 1. Open
